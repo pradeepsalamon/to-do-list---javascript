@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <!-- list -->
+    <div class="box">
+        <div class="head-title">
+            <h1>TO DO LIST</h1>
+        </div>
+        <div class="head-line"></div>
+        <nav class="navbar">
+            <div class="nav-items">Profile</div>
+            <div class="nav-items" onclick="select()">Select</div>
+            <div class="nav-items" onclick="sort()">Sort</div>
+            <div class="nav-items" onclick="getNewList()">Add</div>
+        </nav>
+        <div class="list-container">
+            <div class="list-items list-head">
+                <div>Task</div>
+                <div>Status</div>
+                <div>created Date</div>
+                <div>Actions</div>
+            </div>
+        </div>
+        <div class="gap"></div>
+    </div>
+
+    <!-- popup for adding new list-->
+    <div class="popup"></div>
+    <div class="popupAddNewItem">
+        <form action="closeAddNewItemPopup()" method="post" class="addItemForm" id="addItemForm" name="form">
+            <table>
+                <tr>
+                    <td><label for="task">Task</label></td>
+                    <td><input type="text" id="task" placeholder="enter your task" required pattern="[a-z ]+"
+                            title="Only small alphabetic allowed" minlength="5" maxlength="22" autocomplete="off"></td>
+                </tr>
+                <tr>
+                    <td><label for="startTime">Start Time</label></td>
+                    <td><input type="time" id="startTime"></td>
+                </tr>
+                <tr>
+                    <td><label for="endTime">End Time</label>
+                    <td><input type="time" id="endTime"></td>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="reminder">Reminder</label></td>
+                    <td><input type="checkbox" id="reminder-input">
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button type="submit" id="submit">Save</button>
+                        <button type="button" onclick="closeAddNewItemPopup()">Cancel</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
