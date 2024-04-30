@@ -51,26 +51,13 @@ a {
     background-color: rgba(134, 7, 188, 0.977);
     cursor: pointer;
 }
+.nav-items-selectMode {
+    display: none;
+}
 
 .navbar-selectMode {
     display: none;
 }
-
-.not-allowed:hover {
-    cursor:not-allowed;
-}
-
-.navbar-sortMode {
-    display: none;
-}
-
-select{
-    background-color: rgba(118, 235, 79, 0.811);
-    color: black;
-    border: .15vw solid black;
-    cursor: pointer;
-}
-
 /* list */
 
 .list-container {

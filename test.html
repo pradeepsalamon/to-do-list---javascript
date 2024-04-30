@@ -1,101 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
+<select id="mySelect">
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+  </select>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Change Image on Click</title>
-    <style>
-        .popup {
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            height: 100vh;
-            width: 100vw;
-            background-color: black;
-            opacity: 70%;
-            z-index: 1;
-        }
+  
+  <script>
+    const selectElement = document.getElementById("mySelect");
 
-        .popupAddNewItem {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgb(68, 208, 13);
-            border-radius: 1vh;
-            transform: translate(-50%, -50%) scale(1.1);
-            z-index: 2;
-        }
+selectElement.addEventListener("change", handleSelectionChange);
 
-        .popupAddNewItem table td {
-            padding: .5vw;
-            font-size: large;
-        }
-
-        .popupAddNewItem table td input[type="text"] {
-            padding: .3vw;
-        }
-
-        .popupAddNewItem table td input[type="checkbox"] {
-            scale: 1.5;
-        }
-
-        .popupAddNewItem button {
-            border: 0px;
-            background-color: rgba(134, 7, 188, 0.977);
-            border-radius: 1.4vh;
-            padding: .5vw;
-            margin-left: 2vw;
-            cursor: pointer;
-            color: white;
-            transition: .3s;
-        }
-
-        .popupAddNewItem button:hover {
-            scale: 1.15;
-            border-radius: .5vh;
-        }
-
-        .popupAddNewItem button:active {
-            scale: 1.08;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="popup"></div>
-    <div class="popupAddNewItem">
-        <form action="closeAddNewItemPopup()" method="post" class="addItemForm" id="addItemForm" name="form">
-            <table>
-                <tr>
-                    <td><label for="task">Task</label></td>
-                    <td><input type="text" id="task" placeholder="enter your task" required pattern="[a-z ]+"
-                            title="Only small alphabetic allowed" minlength="5" maxlength="22" autocomplete="off"></td>
-                </tr>
-                <tr>
-                    <td><label for="startTime">Start Time</label></td>
-                    <td><input type="time" id="startTime"></td>
-                </tr>
-                <tr>
-                    <td><label for="endTime">End Time</label>
-                    <td><input type="time" id="endTime"></td>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="reminder">Reminder</label></td>
-                    <td><input type="checkbox" id="reminder-input">
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><button type="submit" id="submit">Save</button>
-                        <button type="button" onclick="closeAddNewItemPopup()">Cancel</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
-    <script src="test.js"></script>
-</body>
-
-</html>
+function handleSelectionChange(event) {
+  const selectedValue = event.target.value;
+  // Do something with the selected value
+  console.log("Selected option:", selectedValue);
+}
+  </script>

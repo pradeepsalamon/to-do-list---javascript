@@ -18,15 +18,33 @@
         <div class="head-line"></div>
         <nav class="navbar">
             <div class="nav-items">Profile</div>
-            <div class="nav-items" onclick="select()">Select</div>
-            <div class="nav-items" onclick="sort()">Sort</div>
+            <div class="nav-items" onclick="selectMode()">Select</div>
+            <div class="nav-items" onclick="sortMode()">Sort</div>
             <div class="nav-items" onclick="getNewList()">Add</div>
+        </nav>
+        <nav class="navbar navbar-selectMode">
+            <div class="nav-items" onclick="selectMode()">Select Mode</div>
+            <div class="nav-items" onclick="selectAll()">Select All</div>
+            <div class="nav-items" onclick="deleteSelected()">Delete Seleted</div>
+            <div class="nav-items" onclick="turnOnReminder()">Turn On Reminder</div>
+        </nav>
+        <nav class="navbar navbar-sortMode">
+            <div class="nav-items" onclick="sortMode()">sort Mode</div>
+            <div class="nav-items" ><label for="sort">Sort by:</label>
+                <select id="sort" onchange="sortBy(this.value)">    
+                    <option value="none">None</option>
+                    <option value="taskName">Task Name</option>
+                    <option value="status">Status</option>
+                    <option value="reminder">Reminder</option>
+                </select>
+            </div>
+            <div class="nav-items" onclick="toggleSort(event)">Ascending</div>
         </nav>
         <div class="list-container">
             <div class="list-items list-head">
                 <div>Task</div>
                 <div>Status</div>
-                <div>created Date</div>
+                <div>Created Date</div>
                 <div>Actions</div>
             </div>
         </div>
@@ -40,8 +58,8 @@
             <table>
                 <tr>
                     <td><label for="task">Task</label></td>
-                    <td><input type="text" id="task" placeholder="enter your task" required pattern="[a-z ]+"
-                            title="Only small alphabetic allowed" minlength="5" maxlength="22" autocomplete="off"></td>
+                    <td><input type="text" id="task" placeholder="enter your task" required pattern="[a-z A-Z]+"
+                            title="Only alphabetic allowed" minlength="5" maxlength="22" autocomplete="off"></td>
                 </tr>
                 <tr>
                     <td><label for="startTime">Start Time</label></td>
@@ -53,12 +71,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><label for="reminder">Reminder</label></td>
+                    <td><label for="reminder-input">Reminder</label></td>
                     <td><input type="checkbox" id="reminder-input">
                 </tr>
                 <tr>
                     <td></td>
-                    <td><button type="submit" id="submit">Save</button>
+                    <td><button type="submit" id="submit">Add</button>
                         <button type="button" onclick="closeAddNewItemPopup()">Cancel</button>
                     </td>
                 </tr>
