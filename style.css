@@ -320,4 +320,7 @@ select{
     .nav-items:nth-child(4){
         display: none;
     }
+    body {
+        transform: rotate (-90deg);
+    }
 }
