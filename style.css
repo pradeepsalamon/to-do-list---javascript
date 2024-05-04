@@ -30,6 +30,9 @@ a {
 
 /* navbar */
 
+.responsive-navbar{
+    display: none;
+}
 .navbar {
     background-color: rgba(118, 235, 79, 0.811);
     margin: 2vh 3vw;
@@ -69,6 +72,10 @@ select{
     color: black;
     border: .15vw solid black;
     cursor: pointer;
+}
+
+.responsive-navbar-list{
+    display: none;
 }
 
 /* list */
@@ -317,7 +324,10 @@ select{
         border-radius: 1vw;
         font-size: 2vh;
     }
-    .nav-items:nth-child(4){
+    .nav-items:nth-child(n+2){
         display: none;
+    }
+    .head-line{
+        height: .5vh;
     }
 }

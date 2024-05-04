@@ -21,6 +21,12 @@
             <div class="nav-items" onclick="selectMode()">Select</div>
             <div class="nav-items" onclick="sortMode()">Sort</div>
             <div class="nav-items" onclick="getNewList()">Add</div>
+            <div class="responsive-navbar nav-items" onclick="openNav()"><img src="images/menu-bar.png" alt="menu"></div>
+            <div class="responsive-navbar-list">
+                <div class="responsive-nav-items" onclick="selectMode()">Select</div>
+                <div class="responsive-nav-items" onclick="sortMode()">Sort</div>
+                <div class="responsive-nav-items" onclick="getNewList()">Add</div>
+            </div>
         </nav>
         <nav class="navbar navbar-selectMode">
             <div class="nav-items" onclick="selectMode()">Select Mode</div>
@@ -30,8 +36,8 @@
         </nav>
         <nav class="navbar navbar-sortMode">
             <div class="nav-items" onclick="sortMode()">sort Mode</div>
-            <div class="nav-items" ><label for="sort">Sort by:</label>
-                <select id="sort" onchange="sortBy(this.value)">    
+            <div class="nav-items"><label for="sort">Sort by:</label>
+                <select id="sort" onchange="sortBy(this.value)">
                     <option value="none">None</option>
                     <option value="taskName">Task Name</option>
                     <option value="status">Status</option>
