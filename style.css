@@ -327,7 +327,4 @@ select{
     .nav-items:nth-child(n+2){
         display: none;
     }
-    .head-line{
-        height: .5vh;
-    }
 }
