@@ -267,7 +267,7 @@ select{
     }
 }
 
-@media screen and (max-width:880px){
+@media screen and (max-width:900px){
     .list-items{
         grid-template-columns: 8fr 3fr 2fr;
     }
@@ -279,6 +279,13 @@ select{
     }
     .head-title h1{
         font-size: 140%;
+    }
+    .list-head{
+        font-size:large;
+    }
+    .nav-items {
+        border-radius: 1vw;
+        font-size: 2vw;
     }
 }
 
@@ -295,6 +302,7 @@ select{
     .box {
         margin: 0px;
     }
+    
 }
 
 @media screen and (max-width:500px) {
@@ -327,4 +335,8 @@ select{
     .nav-items:nth-child(n+2){
         display: none;
     }
+    .head-line{
+        height: .5vh;
+    }
+    
 }
