@@ -428,9 +428,3 @@ function bellAnimation(event) {
         bell.classList.remove("animate")
     })
 }
-
-// responsive
-
-function openNav(){
-    document.querySelector(".responsive-navbar-list").style.display = "block"
-}
