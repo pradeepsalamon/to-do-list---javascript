@@ -26,6 +26,8 @@ var isSortMode = 0
 var sortStatus = 'Ascending'
 var selectAllStatus = 0
 var taskPlace = 0
+var temp
+var pendingTasks = []
 const form = document.getElementById('addItemForm')
 form.addEventListener('submit', handleSubmit)
 
@@ -35,17 +37,25 @@ function handleSubmit(event) {
     var conflict = false
     if (form.checkValidity()) {
         let task = document.getElementById("task").value
-        listData.forEach((list)=>{
-            if (list.taskName == task){
-                alert("Task name already exists !")
-                conflict = true
+        var i = 0
+        listData.forEach((list) => {
+            if (list.taskName == task) {
+                if (document.getElementById("submit").textContent != "save" || i != taskPlace) {
+                    alert("Task name already exists !")
+                    conflict = true
+                }
             }
+            ++i
         })
-        if (conflict){
+        if (conflict) {
             return
         }
         let startTime = document.getElementById("startTime").value
         let endTime = document.getElementById("endTime").value
+        if (startTime == endTime){
+            alert("Invalid Time !")
+            return
+        }
         let reminder = document.getElementById("reminder-input").checked
         let status = statusCheck(startTime, endTime)
         if (document.getElementById("submit").textContent == "Add") {
@@ -53,17 +63,16 @@ function handleSubmit(event) {
             listData.push(newTask)
             addNewList(listData[listData.length - 1])
         }
-        else{
-            let listEdit = listData[taskPlace]
-            listEdit.taskName = task
-            listEdit.startTime = startTime
-            listEdit.endTime = endTime
-            listEdit.reminder = reminder
-            listEdit.status = statusCheck(startTime, endTime)
+        else {
+            temp = listData[taskPlace]
+            temp.taskName = task
+            temp.startTime = startTime
+            temp.endTime = endTime
+            temp.reminder = reminder
+            temp.status = statusCheck(startTime, endTime)
             updateList(listData)
         }
         closeAddNewItemPopup()
-        document.getElementById("submit").textContent = "Add"
     }
 }
 
@@ -217,7 +226,6 @@ function selectAll() {
         })
         listData.forEach((list) => { selectedList.push(list.taskName) })
         selectAllStatus = 1
-        console.log(1, selectedList.length)
     }
     else {
         document.querySelectorAll(".lists").forEach((a) => { a.classList.remove("selected") })
@@ -280,7 +288,7 @@ function updateList(taskData) {
                         onclick="toggleReminder(event)"><span>reminder</span></div>`
 
         listContainer.innerHTML += `<div class="list-items lists"> ${detils} <div> ${reminderIcon}
-        <div class="actions"><img src="images/edit.png" alt="edit" id="edit" onclick="edit(event)"><span>edit</span></div>
+        <div class="actions"><img src="images/edit.png" alt="edit" id="editscript.j" onclick="edit(event)"><span>edit</span></div>
         <div class="actions"><img src="images/delete.png" alt="delete" id="remove" onclick="remove(event)"><span>delete</span></div>
         <div><input type="checkbox" id="select" onclick="selectList(event)"></div></div></div>`
     })
@@ -354,29 +362,28 @@ function toggleSort(event) {
     sortStatus = label.textContent
 }
 
+// alerts
+
+
+
 // fron-end 
 
 function getNewList(list) {
-    if (list == undefined){
+    if (list == undefined) {
         let popup = document.querySelectorAll(".popup,.popupAddNewItem")
         popup.forEach(pop => {
             pop.style.display = 'inline'
         })
     }
-    else{
+    else {
         document.getElementById("task").value = list.taskName
         document.getElementById("startTime").value = list.startTime
         document.getElementById("endTime").value = list.endTime
         document.getElementById("reminder-input").checked = list.reminder
-        console.log(document.getElementById("task").value,
-        document.getElementById("startTime").value,
-        document.getElementById("endTime").value,
-        document.getElementById("reminder-input").checked)
         let popup = document.querySelectorAll(".popup,.popupAddNewItem")
         popup.forEach(pop => {
             pop.style.display = 'inline'
         })
-        list.taskName = ""
     }
 }
 
@@ -403,6 +410,7 @@ function closeAddNewItemPopup() {
     popup.forEach(pop => {
         pop.style.display = 'none'
     })
+    document.getElementById("submit").textContent = "Add"
     resetInputFields()
 }
 
