@@ -428,17 +428,3 @@ function bellAnimation(event) {
         bell.classList.remove("animate")
     })
 }
-
-function bellAnimation(event) {
-    if (event.target.src.includes("off")) {
-        event.target.src = "images/notification-bell.png"
-    }
-    else {
-        event.target.src = "images/off.png"
-    }
-    var bell = event.target
-    bell.classList.add("animate")
-    bell.addEventListener("animationend", function () {
-        bell.classList.remove("animate")
-    })
-}
