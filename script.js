@@ -27,7 +27,10 @@ var sortStatus = 'Ascending'
 var selectAllStatus = 0
 var taskPlace = 0
 var temp
+var isRunning = false
 var pendingTasks = []
+var ongoingTasks = []
+var interval_id = 0
 const form = document.getElementById('addItemForm')
 form.addEventListener('submit', handleSubmit)
 
@@ -74,6 +77,7 @@ function handleSubmit(event) {
         }
         closeAddNewItemPopup()
     }
+    starter()
 }
 
 // findind the status of task
@@ -121,6 +125,7 @@ function toggleReminder(event) {
     }
     else {
         listData[taskPlace].reminder = true
+        starter()
     }
     bellAnimation(event, listData[taskPlace].reminder)
 }
@@ -364,7 +369,87 @@ function toggleSort(event) {
 
 // alerts
 
+function starter(){
+    if ((listData.length == 1) || (interval_id == 0 && listData.length > 0)){
+        filterPendingTasks()
+        filterOngoingTasks()
+        interval_id = setInterval(statusUpdater,1000)
+    }
+}
 
+function filterPendingTasks(){
+    pendingTasks = []
+    listData.forEach((task)=>{
+        if (task.status == "pending"){
+            pendingTasks.push(task)
+        }
+    })
+    console.log("----------------------")
+    pendingTasks.forEach((task)=>{
+        console.log(task.taskName)
+    })
+}
+
+function filterOngoingTasks(){
+    ongoingTasks = []
+    listData.forEach((task)=>{
+        if (task.status == "ongoing"){
+            ongoingTasks.push(task)
+        }
+    })
+}
+
+function statusCheck(startTime, endTime) {
+    let currentHour = String(todayDate.getHours()).padStart(2,'0')
+    let currentMinute = String(todayDate.getMinutes()).padStart(2,'0')
+    let currentTime = `${currentHour}:${currentMinute}`
+    if (currentTime < startTime) {
+        return "pending"
+    }
+    else if (currentTime > endTime && currentTime >startTime) {
+        return "done"
+    }
+    else {
+        return "ongoing"
+    }
+}
+
+function statusUpdater() {
+    if (pendingTasks.length == 0 && ongoingTasks.length == 0){
+        console.log("no pending")
+        clearInterval(interval_id)
+        interval_id = 0
+    }
+    todayDate = new Date
+    pendingTasks.forEach(task=>{
+        let status = statusCheck(task.startTime,task.endTime)
+        if (status == 'ongoing'){
+            task.status = 'ongoing'
+            listData.forEach(item => {
+                if (task.taskName == item.taskName){
+                    item.status = 'ongoing'
+                    updateList(listData)
+                }
+            })
+            task.reminder == true ? alert(task.taskName+'is started'):null
+        }
+    })
+    ongoingTasks.forEach(task=>{
+        let status = statusCheck(task.startTime,task.endTime)
+        if (status == 'done'){
+            task.status = 'done'
+            listData.forEach(item => {
+                if (task.taskName == item.taskName){
+                    item.status = 'done'
+                    updateList(listData)
+                }
+            })
+        }
+    })
+    filterPendingTasks()
+    filterOngoingTasks()
+    console.log("checking")
+}
 
 // fron-end 
 

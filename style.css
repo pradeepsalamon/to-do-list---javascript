@@ -225,6 +225,17 @@ select{
     scale: 1.08;
 }
 
+a{
+    background-color: rgb(68, 208, 13);
+    padding: 1vh;
+    border-radius: .9vh;
+    color: rgb(0, 0, 0);
+    position: absolute;
+    bottom: 1vh;
+    left: 50%;
+    transform: translate(-50%);
+}
+
 
 /* animations */
 
