@@ -302,6 +302,10 @@ function updateList(taskData) {
 // sort mode
 
 function sortMode() {
+    if (listData.length <= 1) {
+        alert("Add atleast 2 tasks to sort")
+        return
+    }
     if (!isSortMode) {
         document.querySelector(".navbar").style.display = "none"
         document.querySelector(".navbar-sortMode").style.display = "flex"
