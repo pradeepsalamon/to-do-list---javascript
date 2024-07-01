@@ -400,13 +400,14 @@ function filterOngoingTasks(){
 }
 
 function statusCheck(startTime, endTime) {
+    todayDate = new Date
     let currentHour = String(todayDate.getHours()).padStart(2,'0')
     let currentMinute = String(todayDate.getMinutes()).padStart(2,'0')
     let currentTime = `${currentHour}:${currentMinute}`
     if (currentTime < startTime) {
         return "pending"
     }
-    else if (currentTime > endTime && currentTime >startTime) {
+    else if (currentTime == endTime) {
         return "done"
     }
     else {
@@ -420,7 +421,6 @@ function statusUpdater() {
         clearInterval(interval_id)
         interval_id = 0
     }
-    todayDate = new Date
     pendingTasks.forEach(task=>{
         let status = statusCheck(task.startTime,task.endTime)
         if (status == 'ongoing'){
