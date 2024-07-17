@@ -261,7 +261,7 @@ a{
     position: relative;
     left: 70%;
     background-color: rgb(52, 59, 44);
-    padding: .8vh;
+    padding: 1vh;
     border-radius: 50%;
     border: none;
     margin: 5px 10px;
@@ -278,11 +278,10 @@ a{
     transform: translate(-50%,-50%)scale(1.2);
     background-color: rgb(29, 36, 29);
     border-radius: 4vw;
-    width: 30vh;
+    width: max-content;
     display: none;
 }
 .confirm h3,p,button{
-    margin: 3vw;
     color: rgb(136, 186, 126);
 }
 .buttons{
@@ -291,10 +290,8 @@ a{
 }
 .confirm button{
     background-color: rgb(52, 59, 44);
-    padding: 1.5vw;
     border-radius: 1.5vh;
     border: none;
-    margin: 1vh 1vh 2vh;
 }
 
 
@@ -365,6 +362,13 @@ a{
     .message-container{
         border-radius: 5vh;
     }
+    .confirm h3,p{
+        margin: 2vw;
+    }
+    .confirm button{
+        padding: 2vh;
+        margin: 0px 5vh 4vh;
+    }
 }
 
 @media screen and (max-width:700px) {
@@ -416,7 +420,11 @@ a{
     .head-line{
         height: .5vh;
     }
-    
+    .confirm h3,p{
+        margin: 3vw;
+    }
+    .confirm button{
+        padding: 1.5vw;
+        margin: 1vh 1vh 2vh;
+    }
 }
-
-

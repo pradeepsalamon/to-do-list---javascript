@@ -34,8 +34,8 @@ var interval_id = 0
 const form = document.getElementById('addItemForm')
 form.addEventListener('submit', handleSubmit)
 let storedData = JSON.parse(localStorage.getItem('taskData')) || []
-if (storedData.length >0){
-    storedData.forEach(data=>{
+if (storedData.length > 0) {
+    storedData.forEach(data => {
         data.status = statusCheck(data.startTime, data.endTime)
     })
     listData = storedData
@@ -88,20 +88,20 @@ function handleSubmit(event) {
     starter()
 }
 // message box
-function message(m){
+function message(m) {
     document.getElementById('message').textContent = m
     document.querySelector('.message-container').style.display = 'block'
     document.querySelector('.popup2').style.display = 'block'
 }
 
-function closeMessage(){
+function closeMessage() {
     document.querySelector('.message-container').style.display = 'none'
     document.querySelector('.popup2').style.display = 'none'
 }
 
 // update data to session
-function updateToStorage(){
-    localStorage.setItem('taskData',JSON.stringify(listData))
+function updateToStorage() {
+    localStorage.setItem('taskData', JSON.stringify(listData))
 }
 
 // Function to be called when an object property changes
@@ -109,17 +109,17 @@ function onObjectChange(object, propertyName, newValue) {
     updateToStorage()
     console.log(`Property '${propertyName}' of object with id ${object.id} changed to: ${newValue}`);
     // Perform any specific action based on the property change
-  }
-  
-  // Function to be called when the array changes
-  function onArrayChange(newArray) {
+}
+
+// Function to be called when the array changes
+function onArrayChange(newArray) {
     updateToStorage()
     console.log('Array of objects has changed:', newArray);
     // Perform any action based on the array change
-  }
-  
-  // Helper function to create a proxy for an object
-  function createObjectProxy(obj) {
+}
+
+// Helper function to create a proxy for an object
+function createObjectProxy(obj) {
     return new Proxy(obj, {
         set(target, property, value) {
             target[property] = value;
@@ -127,26 +127,26 @@ function onObjectChange(object, propertyName, newValue) {
             return true;
         }
     });
-  }
-  
-  // Create proxies for all objects in the array
-  listData = listData.map(createObjectProxy);
-  
-  // Create a proxy for the array of objects
-  listData = new Proxy(listData, {
+}
+
+// Create proxies for all objects in the array
+listData = listData.map(createObjectProxy);
+
+// Create a proxy for the array of objects
+listData = new Proxy(listData, {
     set(target, key, value) {
         // If setting an object, wrap it in a proxy
         if (typeof value === 'object' && value !== null) {
             value = createObjectProxy(value);
         }
-        
+
         target[key] = value;
-  
+
         // Call the function when the array changes
         onArrayChange([...target]); // Use spread operator to clone array
         return true;
     }
-  });
+});
 
 
 // findind the status of task
@@ -607,13 +607,22 @@ function enterFullscreenAndLockOrientation() {
     })
 }
 
-const screenWidth = window.screen.width
-if (screenWidth < 700) {
-    document.querySelector('section').style.display = 'none'
-    document.querySelector('.confirm').style.display = 'block'
-    document.getElementById('allow').addEventListener('click', () => {
-        enterFullscreenAndLockOrientation()
-        document.querySelector('section').style.display = 'block'
-        document.querySelector('.confirm').style.display = 'none'
-    })
+function checkScreen() {
+    const screenWidth = window.screen.width
+    if (screenWidth < 700) {
+        document.querySelector('section').style.display = 'none'
+        document.querySelector('.confirm').style.display = 'block'
+        document.getElementById('allow').addEventListener('click', () => {
+            enterFullscreenAndLockOrientation()
+            document.querySelector('section').style.display = 'block'
+            document.querySelector('.confirm').style.display = 'none'
+        })
+    }
 }
+checkScreen()
+
+screen.orientation.addEventListener('change', function () {
+    if (screen.orientation.type.startsWith('portrait')) {
+        checkScreen()
+    }
+})
