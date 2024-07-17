@@ -33,7 +33,15 @@ var ongoingTasks = []
 var interval_id = 0
 const form = document.getElementById('addItemForm')
 form.addEventListener('submit', handleSubmit)
-
+let storedData = JSON.parse(localStorage.getItem('taskData')) || []
+if (storedData.length >0){
+    storedData.forEach(data=>{
+        data.status = statusCheck(data.startTime, data.endTime)
+    })
+    listData = storedData
+    updateList(listData)
+    starter()
+}
 //  adding new list
 function handleSubmit(event) {
     event.preventDefault()
@@ -44,7 +52,7 @@ function handleSubmit(event) {
         listData.forEach((list) => {
             if (list.taskName == task) {
                 if (document.getElementById("submit").textContent != "save" || i != taskPlace) {
-                    alert("Task name already exists !")
+                    message("Task name already exists !")
                     conflict = true
                 }
             }
@@ -55,8 +63,8 @@ function handleSubmit(event) {
         }
         let startTime = document.getElementById("startTime").value
         let endTime = document.getElementById("endTime").value
-        if (startTime == endTime){
-            alert("Invalid Time !")
+        if (startTime == endTime) {
+            message("Invalid Time !")
             return
         }
         let reminder = document.getElementById("reminder-input").checked
@@ -79,16 +87,78 @@ function handleSubmit(event) {
     }
     starter()
 }
+// message box
+function message(m){
+    document.getElementById('message').textContent = m
+    document.querySelector('.message-container').style.display = 'block'
+    document.querySelector('.popup2').style.display = 'block'
+}
+
+function closeMessage(){
+    document.querySelector('.message-container').style.display = 'none'
+    document.querySelector('.popup2').style.display = 'none'
+}
+
+// update data to session
+function updateToStorage(){
+    localStorage.setItem('taskData',JSON.stringify(listData))
+}
+
+// Function to be called when an object property changes
+function onObjectChange(object, propertyName, newValue) {
+    updateToStorage()
+    console.log(`Property '${propertyName}' of object with id ${object.id} changed to: ${newValue}`);
+    // Perform any specific action based on the property change
+  }
+  
+  // Function to be called when the array changes
+  function onArrayChange(newArray) {
+    updateToStorage()
+    console.log('Array of objects has changed:', newArray);
+    // Perform any action based on the array change
+  }
+  
+  // Helper function to create a proxy for an object
+  function createObjectProxy(obj) {
+    return new Proxy(obj, {
+        set(target, property, value) {
+            target[property] = value;
+            onObjectChange(target, property, value); // Call the function when object property changes
+            return true;
+        }
+    });
+  }
+  
+  // Create proxies for all objects in the array
+  listData = listData.map(createObjectProxy);
+  
+  // Create a proxy for the array of objects
+  listData = new Proxy(listData, {
+    set(target, key, value) {
+        // If setting an object, wrap it in a proxy
+        if (typeof value === 'object' && value !== null) {
+            value = createObjectProxy(value);
+        }
+        
+        target[key] = value;
+  
+        // Call the function when the array changes
+        onArrayChange([...target]); // Use spread operator to clone array
+        return true;
+    }
+  });
+
 
 // findind the status of task
 function statusCheck(startTime, endTime) {
-    let currentHour = todayDate.getHours();
-    let currentMinute = todayDate.getMinutes();
-    let currentTime = `${currentHour}:${currentMinute}`;
+    todayDate = new Date
+    let currentHour = String(todayDate.getHours()).padStart(2, '0')
+    let currentMinute = String(todayDate.getMinutes()).padStart(2, '0')
+    let currentTime = `${currentHour}:${currentMinute}`
     if (currentTime < startTime) {
         return "pending"
     }
-    else if (currentTime > endTime) {
+    else if (currentTime == endTime || currentTime > endTime) {
         return "done"
     }
     else {
@@ -143,7 +213,7 @@ function edit(event) {
 function selectMode() {
     if (selectedMode == 0) {
         if (listData.length <= 1) {
-            alert("Add atleast 2 tasks to select")
+            message("Add atleast 2 tasks to select")
             return
         }
         togggleOpacity()
@@ -246,7 +316,7 @@ function selectAll() {
 
 function turnOnReminder() {
     if (selectedList.length == 0) {
-        alert("Select items to turn on reminder")
+        message("Select items to turn on reminder")
         return
     }
     selectedList.forEach((list) => {
@@ -262,7 +332,7 @@ function turnOnReminder() {
 
 function deleteSelected() {
     if (selectedList.length == 0) {
-        alert("Select items to delete")
+        message("Select items to delete")
         return
     }
     selectedList.forEach((list) => {
@@ -303,7 +373,7 @@ function updateList(taskData) {
 
 function sortMode() {
     if (listData.length <= 1) {
-        alert("Add atleast 2 tasks to sort")
+        message("Add atleast 2 tasks to sort")
         return
     }
     if (!isSortMode) {
@@ -371,80 +441,66 @@ function toggleSort(event) {
     sortStatus = label.textContent
 }
 
-// alerts
+// messages
 
-function starter(){
-    if ((listData.length == 1) || (interval_id == 0 && listData.length > 0)){
+function starter() {
+    if ((listData.length == 1) || (interval_id == 0 && listData.length > 0)) {
         filterPendingTasks()
         filterOngoingTasks()
-        interval_id = setInterval(statusUpdater,1000)
+        interval_id = setInterval(statusUpdater, 1000)
     }
 }
 
-function filterPendingTasks(){
+function filterPendingTasks() {
     pendingTasks = []
-    listData.forEach((task)=>{
-        if (task.status == "pending"){
+    listData.forEach((task) => {
+        if (task.status == "pending") {
             pendingTasks.push(task)
         }
     })
     console.log("----------------------")
-    pendingTasks.forEach((task)=>{
+    pendingTasks.forEach((task) => {
         console.log(task.taskName)
     })
 }
 
-function filterOngoingTasks(){
+function filterOngoingTasks() {
     ongoingTasks = []
-    listData.forEach((task)=>{
-        if (task.status == "ongoing"){
+    listData.forEach((task) => {
+        if (task.status == "ongoing") {
             ongoingTasks.push(task)
         }
     })
 }
 
-function statusCheck(startTime, endTime) {
-    todayDate = new Date
-    let currentHour = String(todayDate.getHours()).padStart(2,'0')
-    let currentMinute = String(todayDate.getMinutes()).padStart(2,'0')
-    let currentTime = `${currentHour}:${currentMinute}`
-    if (currentTime < startTime) {
-        return "pending"
-    }
-    else if (currentTime == endTime) {
-        return "done"
-    }
-    else {
-        return "ongoing"
-    }
-}
 
 function statusUpdater() {
-    if (pendingTasks.length == 0 && ongoingTasks.length == 0){
+    if (pendingTasks.length == 0 && ongoingTasks.length == 0) {
         console.log("no pending")
         clearInterval(interval_id)
         interval_id = 0
     }
-    pendingTasks.forEach(task=>{
-        let status = statusCheck(task.startTime,task.endTime)
-        if (status == 'ongoing'){
+    pendingTasks.forEach(task => {
+        let status = statusCheck(task.startTime, task.endTime)
+        if (status == 'ongoing') {
             task.status = 'ongoing'
             listData.forEach(item => {
-                if (task.taskName == item.taskName){
+                if (task.taskName == item.taskName) {
                     item.status = 'ongoing'
                     updateList(listData)
                 }
             })
-            task.reminder == true ? alert(task.taskName+'is started'):null
+            task.reminder == true ? message(task.taskName + 'is started') : null
         }
     })
-    ongoingTasks.forEach(task=>{
-        let status = statusCheck(task.startTime,task.endTime)
-        if (status == 'done'){
+    ongoingTasks.forEach(task => {
+        let status = statusCheck(task.startTime, task.endTime)
+        if (status == 'done') {
             task.status = 'done'
             listData.forEach(item => {
-                if (task.taskName == item.taskName){
+                if (task.taskName == item.taskName) {
                     item.status = 'done'
+                    item.reminder = false
                     updateList(listData)
                 }
             })
@@ -523,5 +579,41 @@ function bellAnimation(event) {
     bell.classList.add("animate")
     bell.addEventListener("animationend", function () {
         bell.classList.remove("animate")
+    })
+}
+
+// change screen to landscape in mobile
+function enterFullscreenAndLockOrientation() {
+    const docEl = document.documentElement;
+
+    // Enter fullscreen mode
+    if (docEl.requestFullscreen) {
+        docEl.requestFullscreen();
+    } else if (docEl.mozRequestFullScreen) { // Firefox
+        docEl.mozRequestFullScreen();
+    } else if (docEl.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+        docEl.webkitRequestFullscreen();
+    } else if (docEl.msRequestFullscreen) { // IE/Edge
+        docEl.msRequestFullscreen();
+    }
+    // Lock orientation once in fullscreen mode
+    document.addEventListener('fullscreenchange', () => {
+        if (document.fullscreenElement) {
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('landscape')
+                setTimeout(() => { screen.orientation.lock('any') }, 10000)
+            }
+        }
+    })
+}
+
+const screenWidth = window.screen.width
+if (screenWidth < 700) {
+    document.querySelector('section').style.display = 'none'
+    document.querySelector('.confirm').style.display = 'block'
+    document.getElementById('allow').addEventListener('click', () => {
+        enterFullscreenAndLockOrientation()
+        document.querySelector('section').style.display = 'block'
+        document.querySelector('.confirm').style.display = 'none'
     })
 }

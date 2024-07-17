@@ -4,87 +4,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To Do</title>
+    <title>To Do List</title>
+    <link rel="icon" href="images/list.png">
     <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
-    <!-- list -->
-    <div class="box">
-        <div class="head-title">
-            <h1>TO DO LIST</h1>
-        </div>
-        <div class="head-line"></div>
-        <nav class="navbar">
-            <div class="nav-items">Profile</div>
-            <div class="nav-items" onclick="selectMode()">Select</div>
-            <div class="nav-items" onclick="sortMode()">Sort</div>
-            <div class="nav-items" onclick="getNewList()">Add</div>
-        </nav>
-        <nav class="navbar navbar-selectMode">
-            <div class="nav-items" onclick="selectMode()">Select Mode</div>
-            <div class="nav-items" onclick="selectAll()">Select All</div>
-            <div class="nav-items" onclick="deleteSelected()">Delete Seleted</div>
-            <div class="nav-items" onclick="turnOnReminder()">Turn On Reminder</div>
-        </nav>
-        <nav class="navbar navbar-sortMode">
-            <div class="nav-items" onclick="sortMode()">sort Mode</div>
-            <div class="nav-items"><label for="sort">Sort by:</label>
-                <select id="sort" onchange="sortBy(this.value)">
-                    <option value="none">None</option>
-                    <option value="taskName">Task Name</option>
-                    <option value="status">Status</option>
-                    <option value="reminder">Reminder</option>
-                </select>
+    <section>
+        <!-- list -->
+        <div class="box">
+            <div class="head-title">
+                <h1>TO DO LIST</h1>
             </div>
-            <div class="nav-items" onclick="toggleSort(event)">Ascending</div>
-        </nav>
-        <div class="list-container">
-            <div class="list-items list-head">
-                <div>Task</div>
-                <div>Status</div>
-                <div>Created Date</div>
-                <div>Actions</div>
+            <div class="head-line"></div>
+            <nav class="navbar">
+                <div class="nav-items">Profile</div>
+                <div class="nav-items" onclick="selectMode()">Select</div>
+                <div class="nav-items" onclick="sortMode()">Sort</div>
+                <div class="nav-items" onclick="getNewList()">Add</div>
+            </nav>
+            <nav class="navbar navbar-selectMode">
+                <div class="nav-items" onclick="selectMode()">Select Mode</div>
+                <div class="nav-items" onclick="selectAll()">Select All</div>
+                <div class="nav-items" onclick="deleteSelected()">Delete Seleted</div>
+                <div class="nav-items" onclick="turnOnReminder()">Turn On Reminder</div>
+            </nav>
+            <nav class="navbar navbar-sortMode">
+                <div class="nav-items" onclick="sortMode()">sort Mode</div>
+                <div class="nav-items"><label for="sort">Sort by:</label>
+                    <select id="sort" onchange="sortBy(this.value)">
+                        <option value="none">None</option>
+                        <option value="taskName">Task Name</option>
+                        <option value="status">Status</option>
+                        <option value="reminder">Reminder</option>
+                    </select>
+                </div>
+                <div class="nav-items" onclick="toggleSort(event)">Ascending</div>
+            </nav>
+            <div class="list-container">
+                <div class="list-items list-head">
+                    <div>Task</div>
+                    <div>Status</div>
+                    <div>Created Date</div>
+                    <div>Actions</div>
+                </div>
             </div>
+            <div class="gap"></div>
         </div>
-        <div class="gap"></div>
-    </div>
 
-    <!-- popup for adding new list-->
-    <div class="popup"></div>
-    <div class="popupAddNewItem">
-        <form action="closeAddNewItemPopup()" method="post" class="addItemForm" id="addItemForm" name="form">
-            <table>
-                <tr>
-                    <td><label for="task">Task</label></td>
-                    <td><input type="text" id="task" placeholder="enter your task" required pattern="[a-z A-Z]+"
-                            title="Only alphabetic allowed" minlength="5" maxlength="22" autocomplete="off"></td>
-                </tr>
-                <tr>
-                    <td><label for="startTime">Start Time</label></td>
-                    <td><input type="time" id="startTime" required></td>
-                </tr>
-                <tr>
-                    <td><label for="endTime">End Time</label>
-                    <td><input type="time" id="endTime" required></td>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="reminder-input">Reminder</label></td>
-                    <td><input type="checkbox" id="reminder-input">
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><button type="submit" id="submit">Add</button>
-                        <button type="button" onclick="closeAddNewItemPopup()">Cancel</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
+        <!-- popup for adding new list-->
+        <div class="popup"></div>
+        <div class="popup2"></div>
+        <div class="popupAddNewItem">
+            <form action="closeAddNewItemPopup()" method="post" class="addItemForm" id="addItemForm" name="form">
+                <table>
+                    <tr>
+                        <td><label for="task">Task</label></td>
+                        <td><input type="text" id="task" placeholder="enter your task" required pattern="[a-z A-Z]+"
+                                title="Only alphabetic allowed" minlength="5" maxlength="22" autocomplete="off"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="startTime">Start Time</label></td>
+                        <td><input type="time" id="startTime" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="endTime">End Time</label>
+                        <td><input type="time" id="endTime" required></td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="reminder-input">Reminder</label></td>
+                        <td><input type="checkbox" id="reminder-input">
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><button type="button" onclick="closeAddNewItemPopup()">Cancel</button>
+                        <button type="submit" id="submit">Add</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <a href="http://127.0.0.1:8000/ratings/?appName=to-do-list" target="_blank">Rate My App</a>
+    </section>
+    <div class="confirm">
+        <h3>Permission Required</h3>
+        <p>allow this site to enter full screen</p>
+        <div class="buttons">
+            <button id="allow">Alllow</button>
+        </div>
     </div>
-
-    <a href="http://127.0.0.1:8000/ratings/?appName=tic-tac-toe">Rate My App</a>
+    <div class="message-container">
+        <p id="message"></p>
+        <button id="message-ok" onclick="closeMessage()">Ok</button>
+    </div>
     <script src="script.js"></script>
 </body>
 
