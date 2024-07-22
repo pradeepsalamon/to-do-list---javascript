@@ -238,7 +238,7 @@ a{
     padding: 1vh;
     border-radius: .9vh;
     color: rgb(0, 0, 0);
-    position: absolute;
+    position: fixed;
     bottom: 1vh;
     left: 50%;
     transform: translate(-50%);

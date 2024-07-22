@@ -601,7 +601,6 @@ function enterFullscreenAndLockOrientation() {
         if (document.fullscreenElement) {
             if (screen.orientation && screen.orientation.lock) {
                 screen.orientation.lock('landscape')
-                setTimeout(() => { screen.orientation.lock('any') }, 10000)
             }
         }
     })
