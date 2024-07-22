@@ -114,7 +114,7 @@ function onObjectChange(object, propertyName, newValue) {
 // Function to be called when the array changes
 function onArrayChange(newArray) {
     updateToStorage()
-    console.log('Array of objects has changed:', newArray);
+    console.log('Array of objects has changed:', newArray,'document referrer:',document.referrer);
     // Perform any action based on the array change
 }
 
