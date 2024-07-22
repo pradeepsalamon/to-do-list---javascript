@@ -625,3 +625,7 @@ screen.orientation.addEventListener('change', function () {
         checkScreen()
     }
 })
+
+function openTab(){
+    window.open('https://app-ratings.onrender.com/ratings/?appName=to-do-list', '_blank')
+}

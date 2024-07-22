@@ -233,9 +233,10 @@ select{
     scale: 1.08;
 }
 
-a{
+.rate-button{
     background-color: rgb(68, 208, 13);
     padding: 1vh;
+    border: none;
     border-radius: .9vh;
     color: rgb(0, 0, 0);
     position: fixed;
