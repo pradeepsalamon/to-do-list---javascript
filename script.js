@@ -627,5 +627,5 @@ screen.orientation.addEventListener('change', function () {
 })
 
 function openTab(){
-    window.open('https://test-ijamc1sos-pradeepsalamons-projects.vercel.app/ratings/?appName=to-do-list', '_blank')
+    window.open('https://ratings-7ghddly1v-pradeepsalamons-projects.vercel.app/ratings/?appName=to-do-list', '_blank')
 }
